@@ -41,11 +41,19 @@ Where:
 * **Data Persistence:** Automatically exports simulation results to a `.csv` format for external data visualization and analysis.
 
 ## Performance Analysis
-
-The simulation reveals a "tipping point" where the lines of $t_{local}$ and $t_{cloud}$ cross. 
+![Latency Comparison Graph](Graph.png)
 
 * **The Fog Line** (Series 1) remains a clean linear ramp.
 * **The Cloud Line** (Series 2) exhibits vertical jitter, representing the impact of variable data transmission on network-bound tasks.
+
+## Real-World Use Cases
+
+The simulator models the decision-making process required in low-latency environments where centralized processing is insufficient.
+
+* **Autonomous Vehicles:** Safety-critical tasks requiring response times where $t < 10ms$ are processed at the Fog level to prevent collisions.
+* **Smart Cities:** Local nodes aggregate high-volume sensor data from traffic lights and utilities, reducing core network bandwidth consumption.
+* **Industrial IoT:** Predictive maintenance and emergency shutdowns are executed locally to ensure system autonomy during network instability.
+* **Smart Healthcare:** Real-time biometric monitoring for emergency alerts is handled locally to ensure privacy and immediate responsiveness.
 
 ## References
 
