@@ -58,3 +58,7 @@ The simulation reveals a "tipping point" where the lines of $t_{local}$ and $t_{
 gcc main.c -o FogSim
 ./FogSim
 
+## References
+
+* **Cisco White Paper:** "Fog Computing and the Internet of Things: Extend the Cloud to Where the Things Are," Cisco Systems, Inc.
+* **NPTEL Lecture Series:** "Introduction to Internet of Things," Prof. Sudip Misra, Department of Computer Science and Engineering, Indian Institute of Technology (IIT) Kharagpur.
