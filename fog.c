@@ -53,7 +53,7 @@ int main() {
     Task *head = NULL, *tail = NULL;
     int total_tasks = 10;
     
-    printf("  Fog Computing Offloading Simulator \n");
+    printf("Fog Computing Offloading Simulator \n");
     printf("Fog Limit: %d KB | Cloud Bandwidth: %.1f Mbps\n\n", MAX_FOG_MEM_KB, NETWORK_BANDWIDTH);
 
     for (int i = 1; i <= total_tasks; i++) {

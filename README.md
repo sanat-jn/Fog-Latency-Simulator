@@ -1,27 +1,60 @@
-# FogSim-C: Multi-Tasking Edge Computing Simulator
+# Fog-Latency-Simulator
 
-A discrete-event simulator written in **C** designed to model task offloading decisions in a heterogeneous Fog-Cloud environment. This project evaluates the trade-offs between local processing (Fog) and remote execution (Cloud) based on network latency, computational complexity, and hardware constraints.
+A discrete-event simulator written in **C** designed to model task offloading decisions between a local Fog node and a centralized Cloud server.
 
-##  Overview
+## Overview
 
-In modern IoT ecosystems, sending every piece of data to the Cloud causes latency bottlenecks. **FogSim-C** simulates a "middle layer" (Fog node) that makes real-time decisions:
-1.  **Process Locally:** If the Fog node has enough RAM and can finish the task faster.
-2.  **Offload to Cloud:** If the Fog node is congested (Memory Full) or if the Cloud's high-speed processors can overcome the network delay.
+In modern IoT ecosystems, processing every piece of data in the Cloud introduces significant latency. This simulator models a decision engine that chooses the optimal processing path based on real-time computational constraints and network conditions.
 
-##  Key Technical Features
+1. **Process Locally:** The Fog node handles tasks with low complexity to avoid network delays.
+2. **Offload to Cloud:** High-complexity tasks are sent to the Cloud to leverage superior processing speeds, despite the transmission penalty.
 
-* **Discrete-Time Simulation:** Uses a **Global Clock** to track task lifecycles over a continuous time horizon.
-* **Dynamic Resource Management:** Implemented a **Linked List Task Queue** to manage concurrent tasks.
-* **Manual Memory Management:** Utilizes `malloc` and `free` for efficient heap allocation, simulating real-world embedded system constraints.
-* **Mathematical Modeling:** Decisions are powered by a cost-function: 
-    $$Total\ Latency = \frac{Data}{Bandwidth} + Prop.\ Delay + \frac{Cycles}{CPU\ Speed}$$
-* **Congestion Awareness:** The simulator detects "Memory Full" states and automatically triggers offloading protocols.
+## Mathematical Model
 
-##  Installation & Usage
+The simulation determines the efficiency of the system by calculating the total latency ($L$) for each task.
+
+### 1. Fog Computing Latency ($t_{local}$)
+Local latency is a deterministic value based on the processing capacity of the Fog node.
+
+$$t_{local} = \frac{C}{S_{fog}}$$
+
+Where:
+* $C$: Task Complexity (GigaCycles)
+* $S_{fog}$: CPU Speed of the Fog node (GHz)
+
+### 2. Cloud Computing Latency ($t_{cloud}$)
+Cloud latency is a stochastic value that accounts for the "Internet Tax" and variable transmission times.
+
+$$t_{cloud} = d_{prop} + \left( \frac{D}{B} \right) + \frac{C}{S_{cloud}}$$
+
+Where:
+* $d_{prop}$: Propagation Delay (Fixed travel time)
+* $D$: Data Size of the task (Megabits)
+* $B$: Network Bandwidth (Mbps)
+* $S_{cloud}$: CPU Speed of the Cloud server (GHz)
+
+## Key Technical Features
+
+* **Memory Management:** Utilizes dynamic memory allocation (`malloc`) and `struct` pointers to manage task queues.
+* **Stochastic Modeling:** Implements random data size and complexity generation to simulate real-world network unpredictability.
+* **Deterministic Scheduling:** Tasks are generated at a fixed **0.2s interval** to stress-test the Fog node's processing threshold.
+* **Data Persistence:** Automatically exports simulation results to a `.csv` format for external data visualization and analysis.
+
+## Performance Analysis
+
+The simulation reveals a "tipping point" where the lines of $t_{local}$ and $t_{cloud}$ cross. 
+
+* **The Fog Line** (Series 1) remains a clean linear ramp.
+* **The Cloud Line** (Series 2) exhibits vertical jitter, representing the impact of variable data transmission on network-bound tasks.
+
+## Getting Started
 
 ### Prerequisites
-* A C compiler (GCC recommended)
+* GCC Compiler
+* Standard C Libraries (`stdio.h`, `stdlib.h`, `time.h`)
 
 ### Compilation
 ```bash
 gcc main.c -o FogSim
+./FogSim
+
